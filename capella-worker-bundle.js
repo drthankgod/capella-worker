@@ -1,13 +1,14 @@
 /**
  * ============================================================
- *  CAPELLA — Cloudflare Worker (single-file bundle, v3)
+ *  CAPELLA — Cloudflare Worker (single-file bundle, v4)
  * ============================================================
- *  v3 changes: musicians can now create song listings with a
- *  required releaseDate; songs auto-expire (listing + audio file
- *  cleared) once that date passes, via the hourly Cron Trigger.
+ *  v4 fix: CORS preflight was rejecting the x-mime-type header used
+ *  by file uploads (song files / task-proof screenshots), causing
+ *  "Failed to fetch" from any browser. Now allowed.
  *
- *  Every module wrapped in its own IIFE so internal helper names
- *  (json, n, isAdmin, etc.) can't collide across modules.
+ *  v3 changes: musicians can create song listings with a required
+ *  releaseDate; songs auto-expire (listing + audio file cleared)
+ *  once that date passes, via the hourly Cron Trigger.
  *
  *  Bindings required (dashboard Settings > Bindings):
  *    - D1 database binding named "DB" -> capella-db
@@ -2086,7 +2087,7 @@ async function expireReleasedSongs(env) {
 function withCORS(response) {
   const headers = new Headers(response.headers);
   headers.set("Access-Control-Allow-Origin", "*"); // tighten to your real domain before launch
-  headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, x-mime-type");
   headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   return new Response(response.body, { status: response.status, headers });
 }
