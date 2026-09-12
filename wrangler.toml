@@ -1,0 +1,18 @@
+name = "capella-api"
+main = "capella-worker-bundle.js"
+compatibility_date = "2026-09-08"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "capella-db"
+database_id = "bc8192e3-58ef-4c42-9016-6ed34bb93e7a"
+
+[triggers]
+crons = ["0 * * * *"]
+
+# File storage (task-proof screenshots, song files) lives directly in
+# D1 as BLOB columns — no R2 needed.
+
+# Secrets (set in Cloudflare dashboard, NOT here):
+#   PAYSTACK_SECRET_KEY
+#   AUTH_SECRET
