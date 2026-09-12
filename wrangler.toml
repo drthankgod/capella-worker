@@ -1,4 +1,4 @@
-name = "capella-api"
+name = "capella-api-5c6c"
 main = "capella-worker-bundle.js"
 compatibility_date = "2026-09-08"
 
